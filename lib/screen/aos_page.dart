@@ -16,7 +16,7 @@ class AOSPage extends StatefulWidget {
 
 class _AOSPage extends State<AOSPage> {
   final String _markDownPath = 'assets/markdown/AOS';
-  late List<String> _QuestionList = [];
+  late List<String> _ContentList = [];
   late List<String> _FullPath = [];
 
   @override
@@ -31,17 +31,17 @@ class _AOSPage extends State<AOSPage> {
   }
 
   Future<void> _getQuestionList() async {
-    final storageRef = FirebaseStorage.instance.ref().child('android');
+    final storageRef = FirebaseStorage.instance.ref().child('data');
     final listResult = await storageRef.listAll();
-    List<String> qList = [];
+    List<String> contentList = [];
     List<String> pathList = [];
     for (var items in listResult.items) {
       print(items.fullPath.split('/').last);
-      qList.add(items.fullPath.split('/').last.split('.').first);
+      contentList.add(items.fullPath.split('/').last.split('.').first);
       pathList.add(items.fullPath);
     }
     setState(() {
-      _QuestionList = qList;
+      _ContentList = contentList;
       _FullPath = pathList;
     });
   }
@@ -73,7 +73,7 @@ class _AOSPage extends State<AOSPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: _QuestionList.length,
+        itemCount: _ContentList.length,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(
@@ -90,10 +90,10 @@ class _AOSPage extends State<AOSPage> {
                     context,
                     MaterialPageRoute(
                         builder: ((context) => MarkdownDisplayPage(
-                            question: _QuestionList[index],
+                            question: _ContentList[index],
                             fullpath: _FullPath[index]))));
               },
-              title: Text('${_QuestionList[index]}'),
+              title: Text('${_ContentList[index]}'),
             ),
           );
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../model/permission_handler_model.dart';
 import 'aos_page.dart';
 import 'ios_page.dart';
 
@@ -18,14 +19,9 @@ class _MainTabPage extends State<MainTabPage> {
   @override
   void initState() {
     super.initState();
-  }
+    PermissionManage permissionManage = PermissionManage();
+    permissionManage.requestStoragePermission(context);
 
-  Future<bool> _checkPermission() async {
-    PermissionStatus storagePermissionStatus =
-        await Permission.storage.request();
-    if(!storagePermissionStatus.isGranted){                                                                                                                                                                                     
-      showDialog
-    }
   }
 
   void tabSelected(int index) {
