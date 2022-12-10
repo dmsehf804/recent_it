@@ -12,20 +12,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class MarkdownDisplayPage extends StatefulWidget {
   String fullpath;
   String question;
-  List<String> pathlist;
-  int currentindex;
+
   MarkdownDisplayPage(
-      {Key? key,
-      required this.question,
-      required this.fullpath,
-      required this.pathlist,
-      required this.currentindex})
+      {Key? key, required this.question, required this.fullpath})
       : super(key: key);
 
   @override
   State<MarkdownDisplayPage> createState() =>
       // ignore: no_logic_in_create_state
-      _MarkdownDisplayPage(question, fullpath, pathlist, currentindex);
+      _MarkdownDisplayPage(question, fullpath);
 }
 
 enum TtsState { playing, stopped, paused, continued }
@@ -39,7 +34,6 @@ class _MarkdownDisplayPage extends State<MarkdownDisplayPage> {
   List<String> pathlist = [];
   double strong_size = 1.0;
   double p_size = 20.0;
-  int currentindex = 0;
   double pitch = 1.0;
   double rate = 0.5;
   double volume = 0.5;
@@ -59,8 +53,7 @@ class _MarkdownDisplayPage extends State<MarkdownDisplayPage> {
 
   var autonextpageflag = true;
   var _color = Colors.red;
-  _MarkdownDisplayPage(
-      this.question, this.fullpath, this.pathlist, this.currentindex);
+  _MarkdownDisplayPage(this.question, this.fullpath);
 
   @override
   void initState() {
@@ -84,14 +77,6 @@ class _MarkdownDisplayPage extends State<MarkdownDisplayPage> {
       setState(() {
         print("Complete");
         ttsState = TtsState.stopped;
-        if (autonextpageflag) {
-          if (currentindex < pathlist.length) {
-            currentindex += 1;
-          }
-          print("Complete");
-          _getMarkDownData(pathlist[currentindex]);
-          print("Complete");
-        }
       });
     });
 
@@ -221,52 +206,6 @@ class _MarkdownDisplayPage extends State<MarkdownDisplayPage> {
                         _stop();
                       },
                       child: const Icon(Icons.stop)),
-                ),
-                SizedBox(
-                  height: 50.0,
-                  width: 50.0,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          if (currentindex != 0) {
-                            currentindex -= 1;
-                          }
-                          _getMarkDownData(pathlist[currentindex]);
-                        });
-                      },
-                      child: const Icon(Icons.arrow_back)),
-                ),
-                SizedBox(
-                  height: 50.0,
-                  width: 50.0,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          if (currentindex < pathlist.length) {
-                            currentindex += 1;
-                          }
-                          _getMarkDownData(pathlist[currentindex]);
-                        });
-                      },
-                      child: const Icon(Icons.arrow_forward)),
-                ),
-                SizedBox(
-                  height: 50.0,
-                  width: 50.0,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          if (autonextpageflag) {
-                            _color = Colors.blue;
-                            autonextpageflag = false;
-                          } else {
-                            _color = Colors.red;
-                            autonextpageflag = true;
-                          }
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(primary: _color),
-                      child: const Icon(Icons.auto_mode)),
                 ),
                 SizedBox(
                   height: 50.0,

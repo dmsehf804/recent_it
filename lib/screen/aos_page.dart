@@ -31,7 +31,7 @@ class _AOSPage extends State<AOSPage> {
   }
 
   Future<void> _getQuestionList() async {
-    final storageRef = FirebaseStorage.instance.ref().child('data');
+    final storageRef = FirebaseStorage.instance.ref().child('android');
     final listResult = await storageRef.listAll();
     List<String> contentList = [];
     List<String> pathList = [];
